@@ -30,9 +30,11 @@ export class LoginComponent implements OnInit {
     // loginRequest.email = this.loginForm.value.email
     console.log(loginRequest);
     this.uService.loginUser(loginRequest).subscribe((a) =>  {
-      console.log('Login successful... going to homepage', a)
-      alert('Login successful... going to homepage')
-      this.router.navigate(['/home']);
+      if (a !== null) {
+        console.log('Login successful... going to homepage', a)
+        alert('Login successful... going to homepage')
+        this.router.navigate(['/home']);
+      } else alert('Login not successful... Try again')
     })
   }
 
