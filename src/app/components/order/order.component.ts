@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { OrderInterface } from 'src/app/dtos/Order';
 import { OrderService } from 'src/app/services/order.service';
 
@@ -9,7 +10,7 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class OrderComponent implements OnInit {
 
-  constructor(private oService:OrderService) { }
+  constructor(private oService:OrderService, private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -32,7 +33,15 @@ export class OrderComponent implements OnInit {
     }
     // loginRequest.email = this.loginForm.value.email
     // console.log(registerRequest);
-    this.oService.placeOrder(orderRequest).subscribe((a) =>  console.log('asdasdadasdsadsad', a))
+    this.oService.placeOrder(orderRequest).subscribe((a) =>  {
+      console.log('Order placed!', a)
+      alert('Order has been placed!!!')
+    })
+  }
+
+  logout() {
+    localStorage.clear()
+    this.router.navigate(['login'])
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { UserLogin } from 'src/app/dtos/User';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
     password: ''
   });
 
-  constructor(private formBuilder:FormBuilder, private uService:UserService) { }
+  constructor(private formBuilder:FormBuilder, private uService:UserService, private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -28,7 +29,15 @@ export class LoginComponent implements OnInit {
     }
     // loginRequest.email = this.loginForm.value.email
     console.log(loginRequest);
-    this.uService.loginUser(loginRequest).subscribe((a) =>  console.log('asdasdadasdsadsad', a))
+    this.uService.loginUser(loginRequest).subscribe((a) =>  {
+      console.log('Login successful... going to homepage', a)
+      alert('Login successful... going to homepage')
+      this.router.navigate(['/home']);
+    })
+  }
+
+  goToRegister():void {
+    this.router.navigate(['/register']);
   }
 
 }
