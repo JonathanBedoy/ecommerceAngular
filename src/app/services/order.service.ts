@@ -13,7 +13,7 @@ export class OrderService {
   placeOrder(order:OrderInterface) {
     return this.http.post<OrderInterface>(`${this.userUrl}`, order).pipe(
       tap(_order => {
-        if (_order == null) return
+        // if (_order == null) return
         console.log(`placed order = ${_order}`)
       }),
       catchError(this.handleError<UserInterface>(`place order =${order}`))
