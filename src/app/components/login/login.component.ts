@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { UserLogin } from 'src/app/dtos/User';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
@@ -12,25 +12,26 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm = this.formBuilder.group({
-    email: '',
-    password: ''
-  });
+  loginForm = new UntypedFormGroup({
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    password: new UntypedFormControl('', Validators.required)
+  })
 
-  constructor(private formBuilder:FormBuilder, private uService:UserService, private router:Router) { }
+
+  constructor(private uService:UserService, private router:Router) { }
 
   ngOnInit(): void {
   }
 
-  display():void {
+  login():void {
     let loginRequest:UserLogin = {
-      email: this.loginForm.value.email ? this.loginForm.value.email:'',
-      password: this.loginForm.value.password ? this.loginForm.value.password : ''
+      email: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value
     }
     // loginRequest.email = this.loginForm.value.email
     console.log(loginRequest);
     this.uService.loginUser(loginRequest).subscribe((a) =>  {
-      if (a !== null) {
+      if (a !== null && a.id !== 0) {
         console.log('Login successful... going to homepage', a)
         alert('Login successful... going to homepage')
         this.router.navigate(['/home']);

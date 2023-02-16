@@ -14,11 +14,11 @@ export class UserService {
     return this.http.post<UserInterface>(`${this.userUrl}`, user).pipe(
       tap(_user => {
         console.log(`Registered User = ${_user}`)
-        if (_user.id) {
-          localStorage.setItem('userId', _user.id.toString())
-          // this.loggedIn = true
-          // this.currentUser = _user
-        }
+        // if (_user.id) {
+        //   localStorage.setItem('userId', _user.id.toString())
+        //   // this.loggedIn = true
+        //   // this.currentUser = _user
+        // }
       }),
       catchError(this.handleError<UserInterface>(`registerUser user=${user}`))
     )
